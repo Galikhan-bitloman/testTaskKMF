@@ -55,4 +55,4 @@ go.work
 .vscode/
 
 
-.config.json/
+.config/
