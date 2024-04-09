@@ -1,0 +1,10 @@
+{
+  "Port": ":8080",
+  "ConnectionString": {
+                        "server": "ms",
+                        "port": 1433,
+                        "user": "kursUser",
+                        "password": "kursPswd",
+                        "database": "TEST"
+                      }
+}
