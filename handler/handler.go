@@ -21,7 +21,7 @@ func (h *Handler) InitRoutes() (*fiber.App, error) {
 	api := app.Group("/api")
 	v1 := api.Group("/v1")
 	currency := v1.Group("/currency")
-	currency.Get("/", CheckDateFormat, h.GetCurrencyHandler)
+	currency.Post("/", CheckDateFormat, h.GetCurrencyHandler)
 
 	return app, nil
 }
