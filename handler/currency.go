@@ -8,13 +8,9 @@ import (
 
 func (h *Handler) GetCurrencyHandler(ctx *fiber.Ctx) error {
 
-	q := new(schema.CurrencyRequest)
-	err := ctx.BodyParser(q)
+	date := ctx.Query("date")
 
-	if err != nil {
-		return err
-	}
-	d, err := h.service.GetCurrencyService(q.Date)
+	d, err := h.service.GetCurrencyService(date)
 
 	if err != nil {
 		return err
@@ -24,5 +20,5 @@ func (h *Handler) GetCurrencyHandler(ctx *fiber.Ctx) error {
 		Data: d,
 	}
 
-	return ctx.XML(res)
+	return ctx.Status(200).JSON(res)
 }
