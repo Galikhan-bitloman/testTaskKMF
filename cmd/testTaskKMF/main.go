@@ -2,10 +2,10 @@ package main
 
 import (
 	"log"
-	"testTaskKMF/common"
-	"testTaskKMF/handler"
-	"testTaskKMF/repository"
-	"testTaskKMF/services"
+	"testTaskKMF/pkg/common"
+	"testTaskKMF/pkg/handler"
+	"testTaskKMF/pkg/repository"
+	"testTaskKMF/pkg/services"
 )
 
 func main() {
