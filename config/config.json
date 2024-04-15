@@ -1,10 +1,13 @@
 {
   "Port": ":8080",
   "ConnectionString": {
-                        "server": "ms",
+                        "host": "postgres",
                         "port": 1433,
                         "user": "kursUser",
                         "password": "kursPswd",
                         "database": "TEST"
-                      }
+                      },
+  "URL" : {
+    "getRates" : "https://nationalbank.kz/rss/get_rates.cfm?fdate=param"
+  }
 }

@@ -2,34 +2,40 @@ package common
 
 import (
 	"encoding/json"
-	"io/ioutil"
 	"log"
+	"os"
 )
 
 type Conf struct {
-	Port             string
+	Port             string `json:"port"`
 	ConnectionString Server
+	URL              Urls
+}
+
+type Urls struct {
+	GetRates string `json:"getRates"`
 }
 
 type Server struct {
-	Server   string
-	Port     int
-	User     string
-	Password string
-	Database string
+	Host     string `json:"host"`
+	Port     int    `json:"port"`
+	User     string `json:"user"`
+	Password string `json:"password"`
+	Database string `json:"database"`
 }
 
-func ReadConfig() (res Conf) {
+func ReadConfig(path string) (*Conf, error) {
 	var AppConfig Conf
-	raw, err := ioutil.ReadFile("./config.json")
+	raw, err := os.ReadFile(path)
+
 	if err != nil {
 		log.Println("Error occured while reading config")
-		return
+		return nil, err
 	}
 	err = json.Unmarshal(raw, &AppConfig)
 	if err != nil {
-		return
+		return nil, err
 	}
 
-	return AppConfig
+	return &AppConfig, err
 }
