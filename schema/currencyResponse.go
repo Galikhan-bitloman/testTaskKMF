@@ -26,5 +26,17 @@ type RateItem struct {
 }
 
 type CurrencyRequest struct {
-	Date string `json:"date"`
+	Date string `json:"date, omitempty"`
+}
+
+type CurrencyData struct {
+	FullName     string `json:"fullname"`
+	ExchangeRate string `json:"exchangeRate"`
+	Index        string `json:"index"`
+	Change       string `json:"change"`
+}
+
+type CurrencyResponse struct {
+	Data []CurrencyData `json:"data"`
+	Date string         `json:"date"`
 }
