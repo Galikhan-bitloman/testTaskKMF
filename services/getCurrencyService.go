@@ -1,61 +1,44 @@
 package services
 
 import (
-	"encoding/xml"
-	"io"
 	"log"
-	"net/http"
+	"testTaskKMF/common"
+	"testTaskKMF/consts"
 	"testTaskKMF/repository"
 	"testTaskKMF/schema"
 )
 
 type GetCurrency struct {
-	repos repository.ICurrencyRepository
+	repos  repository.ICurrencyRepository
+	config common.Conf
 }
 
-func NewGetCurrency(repos repository.ICurrencyRepository) *GetCurrency {
+func NewGetCurrency(repos repository.ICurrencyRepository, config common.Conf) *GetCurrency {
 	return &GetCurrency{
-		repos: repos,
+		repos:  repos,
+		config: config,
 	}
 }
 
-func (g *GetCurrency) GetCurrencyService(queryValue string) (*schema.Rates, error) {
-	var res schema.Rates
+func (g *GetCurrency) GetCurrencyService(queryValue string) (*schema.CurrencyResponse, error) {
+	var rates schema.Rates
 
-	log.Println("bus logic for get currency")
-
-	url, err := GetRatesUrlConstructor(queryValue)
+	url, err := GetRatesUrlConstructor(queryValue, g.config.URL.GetRates)
+	if err != nil {
+		return nil, err
+	}
 
 	log.Println("url", *url)
-	if err != nil {
-		log.Println(err)
-	}
 
-	request, err := http.NewRequest("GET", *url, nil)
-
+	byteResp, err := MakeRequests(consts.GET, url)
 	if err != nil {
 		return nil, err
 	}
 
-	client := http.Client{}
-	response, err := client.Do(request)
-
+	res, err := XmlToJsonCurrency(byteResp, &rates)
 	if err != nil {
 		return nil, err
 	}
 
-	responseBody, err := io.ReadAll(response.Body)
-
-	if err != nil {
-		return nil, err
-	}
-
-	err = xml.Unmarshal(responseBody, &res)
-
-	if err != nil {
-		return nil, err
-	}
-
-	return &res, nil
-
+	return res, nil
 }
